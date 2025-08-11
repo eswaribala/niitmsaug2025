@@ -48,4 +48,40 @@ public class CustomerController {
     public List<Customer> fetchCustomers(){
         return customerService.getCustomers();
     }
+
+
+    @GetMapping("/v1.0/{accountNo}")
+    public ResponseEntity<ResponseWrapper> fetchCustomerById(@PathVariable("accountNo") long accountNo){
+        Customer customer= customerService.findCustomer(accountNo);
+
+        if(customer != null){
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper<Customer>(customer));
+        }else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper("Customer not found"));
+
+
+    }
+
+    @PutMapping("/v1.0")
+    public ResponseEntity<ResponseWrapper> updateCustomer(@RequestParam("accountNo") long accountNo,@RequestParam("newEmail") String newEmail){
+        Customer customer= customerService.updateCustomer(accountNo, newEmail);
+
+        if(customer != null){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseWrapper<Customer>(customer));
+        }else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper("Customer not updated"));
+
+
+    }
+
+    @DeleteMapping("/v1.0")
+    public ResponseEntity<ResponseWrapper> deleteCustomer(@RequestParam("accountNo") long accountNo){
+
+        if(customerService.deleteCustomer(accountNo)){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseWrapper("Customer deleted"));
+        }else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper("Customer not deleted"));
+
+
+    }
 }
