@@ -9,6 +9,8 @@ class Customer(models.Model):
     account_no = models.IntegerField(primary_key=True)
     password = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}, {self.email}, {self.phone}, {self.account_no}, {self.created_at}"
 
 
 class Address(models.Model):
@@ -18,6 +20,5 @@ class Address(models.Model):
     state = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=10)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='addresses')
-
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.door_no}, {self.street}, {self.city}, {self.state}, {self.zip_code}, {self.customer}"
