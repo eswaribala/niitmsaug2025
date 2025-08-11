@@ -1,5 +1,6 @@
 package com.niit.customerapi.services;
 
+import com.niit.customerapi.exceptions.CustomerNotFoundException;
 import com.niit.customerapi.models.Customer;
 import com.niit.customerapi.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public Customer findCustomer(long accountNo) {
-        return customerRepository.findById(accountNo).orElse(null);
+        return customerRepository.findById(accountNo).orElseThrow(()->
+                new CustomerNotFoundException("Customer with account number "+accountNo+" not found"));
     }
 }
