@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'drf_yasg'
 
-],
+]
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -97,7 +98,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
-        'PORT': '5432'
+        'PORT': '5432',
     }
 
 }
