@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper=true)
-public class Individual extends Customer{
+public class Individual extends Customer implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name="Gender")
     private Gender gender;
