@@ -8,6 +8,7 @@ class Customer(models.Model):
     phone = models.CharField(max_length=15, blank=True)
     account_no = models.IntegerField(primary_key=True)
     password = models.CharField(max_length=10)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Address(models.Model):
