@@ -1,0 +1,204 @@
+
+
+To create Django project
+mkdir food_api
+cd food_api
+
+python.exe -m pip install --upgrade pip 
+
+python -m venv env
+use pycharm
+ settings tools terminal
+make shell path windows cmd C:\Windows\system32\cmd.exe
+
+check activate virtualenv
+.\venv\Scripts\activate  # PowerShell or CMD
+It should show
+#(venv) PS E:\Python_Virtusa\flaskapp> 
+#mysql
+python -m pip install django djangorestframework mysqlclient
+#postgres
+python -m pip install django djangorestframework
+python -m pip install psycopg2-binary
+
+python -m pip install django-rest-swagger
+python -m pip install drf-yasg
+python -m pip install setuptools
+django-admin startproject customer_api .
+django-admin startapp customer
+
+
+#run the project
+Finally run
+python manage.py runserver
+
+Define the Customer model
+
+Configure the MySQL database  settings.py
+
+Create the API views and serializers
+
+ Register the app and REST framework in settings
+
+Configure the URLs
+pip install -r requirements.txt
+#generating tables
+python manage.py makemigrations customer(app name where models are there)
+python manage.py migrate  
+
+#create super user
+python manage.py createsuperuser
+
+#finally run appication
+python manage.py runserver
+
+
+#vault server
+
+python -m pip install hvac
+
+
+
+Config Client
+
+python -m  pip install spring-config-client
+
+
+change environemnt
+#from dev env
+#migration
+python manage.py makemigrations employee --settings=employee_api.config.settings.dev
+python manage.py migrate  --settings=employee_api.config.settings.dev
+python manage.py runserver 8001 --settings=customer_api.config.settings.dev
+python manage.py runserver 8002 --settings=customer_api.config.settings.dev
+Eureka client
+python -m pip install py-eureka-client
+#circuit breaker
+python -m pip install resilient-caller
+#inter service communication
+python -m pip install requests
+
+#env file
+pip install python-dotenv
+
+#create the image and containers
+#create docker file
+#create image 
+docker build -f Dockerfile -t employeeapi .
+#create docker-compose file
+#run docker-compose
+docker-compose up
+#once containers ready
+#check tables
+docker exec -it <postgrescontainerid> psql -U <username>
+#check list of databases
+\l
+#change the database to current
+\c employeedb
+#show the tables
+\dt
+#to quit from db
+quit
+
+
+#create super user from container
+#backend is django service name in docker compose file
+docker exec -it backend python manage.py createsuperuser
+
+#push docker image to dockerhub repository
+#docker hub login
+docker login
+#tag and push the image
+docker tag <imgname> <dockerhubid>/<reponame>:<imagename>
+docker push  <dockerhubid>/<reponame>:<imagename>
+
+#kubernetes deployment
+#deploy postgres volume
+kubectl apply -f postgres-pv.yaml
+#deploy postgres server
+kubectl apply -f postgres-deployment.yaml
+#deploy employee pod
+kubectl apply -f deployment-v2.yaml
+#check employee logs and access api from browser
+http://localhost:8000/docs/
+
+#create super user for employee pod
+kubectl exec -it <employeedeploy-pod-name> -- bash
+#will see bash shell
+python manage.py createsuperuser
+
+
+#kafka library
+python -m pip install confluent-kafka
+
+#backgraound thread for kafka consumer
+
+ python manage.py launch_queue_listener
+
+#ssl security
+#install django-sslserver
+#add sslserver in installed_apps
+#generate openssl certificates
+openssl req -x509 -newkey rsa:2048 -nodes  -keyout key.pem -out cert.pem -days 365 -subj="/CN=mylocaldev.com"
+
+
+#elastic
+add search module
+python manage.py startapp search
+#build search index from docker container
+docker exec -it 8284d0adf9e0 /bin/bash
+python manage.py search_index --create
+or
+python manage.py search_index --rebuild
+
+
+# jwt 
+
+python -m pip install djangorestframework_simplejwt
+python -m pip install --upgrade djangorestframework-simplejwt
+
+installed app
+'rest_framework_simplejwt.token_blacklist',
+
+
+
+obtain token
+
+http://127.0.0.1:8000/api/token/
+
+POST method
+
+body
+{
+
+    "username":"eswaribala",
+    "password":"vigneshbala"
+}
+
+Response
+
+{
+    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcwNzg0MTYzMiwiaWF0IjoxNzA3NzU1MjMyLCJqdGkiOiJhZjEwYzQyZGZkNjE0M2U1OWI3YmRiM2Y5ZGJjNzA0NyIsInVzZXJfaWQiOjF9.bARJJQX-47b6hR0a2EvjuHh3_hvTmk1uFQrSsml1BiI",
+    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NzU1NTMyLCJpYXQiOjE3MDc3NTUyMzIsImp0aSI6ImFjZjAzMzhmOTc5NDRhODU4OWJiZDI4NWMwZmNmNTIxIiwidXNlcl9pZCI6MX0.EAHrup9K52O82ApgNXG_1AR2th0xmeTldtq1utM4q5g"
+}
+
+
+
+#use bearer token
+
+http://127.0.0.1:8000/hello
+
+bearer token
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NzU1NTMyLCJpYXQiOjE3MDc3NTUyMzIsImp0aSI6ImFjZjAzMzhmOTc5NDRhODU4OWJiZDI4NWMwZmNmNTIxIiwidXNlcl9pZCI6MX0.EAHrup9K52O82ApgNXG_1AR2th0xmeTldtq1utM4q5g
+
+
+Refresh Token
+
+http://127.0.0.1:8000/api/token/refresh/ 
+post
+
+{
+"refresh":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcwNzg0MTYzMiwiaWF0IjoxNzA3NzU1MjMyLCJqdGkiOiJhZjEwYzQyZGZkNjE0M2U1OWI3YmRiM2Y5ZGJjNzA0NyIsInVzZXJfaWQiOjF9.bARJJQX-47b6hR0a2EvjuHh3_hvTmk1uFQrSsml1BiI"
+}
+
+
