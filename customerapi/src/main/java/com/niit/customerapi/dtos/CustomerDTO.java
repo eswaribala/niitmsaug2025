@@ -1,5 +1,6 @@
 package com.niit.customerapi.dtos;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -17,7 +18,7 @@ import java.io.Serializable;
 @SuperBuilder
 
 public class CustomerDTO implements Serializable {
-
+    @Schema(hidden = true)
     protected long accountNo;
 
     protected FullNameDTO fullName;

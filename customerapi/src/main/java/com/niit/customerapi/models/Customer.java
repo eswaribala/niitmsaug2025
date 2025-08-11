@@ -1,5 +1,6 @@
 package com.niit.customerapi.models;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="Account_No")
+    @Schema(hidden=true)
     protected long accountNo;
 
     @Embedded
