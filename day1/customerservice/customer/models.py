@@ -14,6 +14,7 @@ class Customer(models.Model):
 
 
 class Address(models.Model):
+    addressId = models.AutoField(primary_key=True)
     door_no=models.CharField(max_length=5)
     street = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
