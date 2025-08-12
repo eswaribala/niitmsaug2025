@@ -15,4 +15,17 @@ docker exec -it <containerid> bin/bash
 docker build -f dockerfile -t customerapi .
 #create docker network
 docker network create niitnetwork
+#create the containers
+docker-compose up
+
+#create postgres db
+docker exec -it <containerid>  psql -U postgres
+#to list the databases
+#\l
+#to create the database
+create database niitdevcustomerdb;
+exit
+
+
+
 
