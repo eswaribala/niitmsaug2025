@@ -1,0 +1,6 @@
+#check version
+docker -v
+#to list the images
+docker images
+#to list the containers
+docker container ls -a
