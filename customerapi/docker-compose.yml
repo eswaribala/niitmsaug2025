@@ -1,4 +1,4 @@
-version: '3.9'
+#version: '3.9'
 
 services:
   postgres:
@@ -8,12 +8,12 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: niitcustomerdb
+      POSTGRES_DB: niitdevcustomerdb
     ports:
       - "5432:5432"
 
     volumes:
-      - pg_data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     healthcheck:        
         interval: 30s
         timeout: 10s
@@ -53,5 +53,7 @@ networks:
   default:
     external:
       name: niitnetwork
+volumes:
+  pgdata:
 
   
