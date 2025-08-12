@@ -4,3 +4,5 @@ docker -v
 docker images
 #to list the containers
 docker container ls -a
+#to pull the mongo db image from docker repository
+docker pull mongo
