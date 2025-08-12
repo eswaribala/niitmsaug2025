@@ -6,3 +6,5 @@ docker images
 docker container ls -a
 #to pull the mongo db image from docker repository
 docker pull mongo
+#to create mongo db container
+docker run --name=niit-mongo-c1 -p 27017:27017 -d mongo
