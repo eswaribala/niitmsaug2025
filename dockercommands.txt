@@ -13,3 +13,6 @@ docker exec -it <containerid> bin/bash
 #mongosh
 #to docker build the customer api
 docker build -f dockerfile -t customerapi .
+#create docker network
+docker network create niitnetwork
+
