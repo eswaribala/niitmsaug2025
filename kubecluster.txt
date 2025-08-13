@@ -1,0 +1,31 @@
+Step 1
+docker-desktop multi node cluster
+curl.exe -Lo kind-windows-amd64.exe https://kind.sigs.k8s.io/dl/v0.10.0/kind-windows-amd64
+
+Step2
+copy .\kind-windows-amd64.exe d:\kube\kind.exe
+
+Step 3
+Go to cd d:\kube
+Step 4
+kind create cluster # Default cluster context name is `kind`.
+Step 5
+kind create cluster --name kind-2
+Step 6
+kind get clusters
+Step 7
+kubectl get cluster-info
+kubectl cluster-info --context kind-kind
+kubectl cluster-info --context kind-kind-2
+kind delete cluster --name kind
+
+kind create cluster --config "G:\Local disk\Docker\kind-example-config.yaml"
+
+
+Docker images can be loaded into your cluster nodes with:
+
+kind load docker-image my-custom-image-0 my-custom-image-1
+kind load docker-image my-custom-image-0 my-custom-image-1 --name kind-2
+You can get a list of images present on a cluster node by using docker exec:
+
+docker exec -it my-node-name crictl images
