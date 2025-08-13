@@ -11,11 +11,11 @@ pipeline {
     string(name: 'MODULE_DIR', defaultValue: 'customerapi', description: 'Path to Spring Boot module (relative to repo root)')
   }
 
-  options {
+  /* options {
     timestamps()
     ansiColor('xterm')
     buildDiscarder(logRotator(numToKeepStr: '25'))
-  }
+  } */
 
   environment {
     // SonarCloud org & project — update if your keys differ
