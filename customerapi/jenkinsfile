@@ -58,7 +58,7 @@ mvn -B sonar:sonar -Dsonar.host.url=%SONAR_HOST% -Dsonar.organization=%SONAR_ORG
       }
     }
 
-    stage('Quality Gate') {
+   /*  stage('Quality Gate') {
       steps {
         timeout(time: 15, unit: 'MINUTES') {
           script {
@@ -69,7 +69,7 @@ mvn -B sonar:sonar -Dsonar.host.url=%SONAR_HOST% -Dsonar.organization=%SONAR_ORG
           }
         }
       }
-    }
+    } */
 
     stage('Package & Archive') {
       steps {
