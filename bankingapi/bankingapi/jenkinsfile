@@ -1,5 +1,5 @@
 pipeline{
-agent: any
+agent any
 tools {
     jdk 'java21'       // match names in Manage Jenkins → Tools
     maven 'maven'
