@@ -1,38 +1,31 @@
 pipeline {
   agent any
 
-  // --- Adjust these two tool names to match "Manage Jenkins → Tools"
-  tools { jdk 'java21'; maven 'maven' }
-
-  parameters {
-    // If your code is on another branch, change at build time
-    string(name: 'BRANCH', defaultValue: 'javaprojects', description: 'Git branch to build')
-    // If your Spring Boot project lives in a subfolder, e.g., "customerapi"
-    string(name: 'MODULE_DIR', defaultValue: 'customerapi', description: 'Path to Spring Boot module (relative to repo root)')
+  tools {
+    jdk 'java21'       // match names in Manage Jenkins → Tools
+    maven 'maven'
   }
 
-  /* options {
+  parameters {
+    string(name: 'BRANCH', defaultValue: 'javaprojects', description: 'Git branch')
+    string(name: 'MODULE_DIR', defaultValue: 'customerapi', description: 'Path to module (use "." if at root)')
+  }
+
+ /*  options {
     timestamps()
     ansiColor('xterm')
     buildDiscarder(logRotator(numToKeepStr: '25'))
   } */
 
   environment {
-    // SonarCloud org & project — update if your keys differ
     SONAR_HOST = 'https://sonarcloud.io'
-    SONAR_ORG  = 'eswaribala'
-    SONAR_KEY  = 'eswaribala_niitmsaug2025'
-  }
-
-  triggers {
-    // Prefer GitHub/GitLab webhooks; this is a fallback
-    pollSCM('@hourly')
+    SONAR_ORG  = 'eswaribala'                 // <-- set your org
+    SONAR_KEY  = 'eswaribala_niitmsaug2025'   // <-- set your project key
   }
 
   stages {
     stage('Checkout') {
       steps {
-        // Pull from your GitHub repo and selected branch
         git branch: params.BRANCH, url: 'https://github.com/eswaribala/niitmsaug2025.git'
       }
     }
@@ -40,33 +33,25 @@ pipeline {
     stage('Build & Test') {
       steps {
         dir(params.MODULE_DIR) {
-          sh 'mvn -B -U clean verify'
+          bat 'mvn -B -U clean verify'
         }
       }
       post {
         always {
-          // JUnit results (if present)
-          junit allowEmptyResults: true, testResults: "${params.MODULE_DIR}/target/surefire-reports/*.xml"
+          // find reports anywhere under workspace
+          junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
         }
       }
     }
 
     stage('Sonar Analysis') {
       steps {
-        // Set up Jenkins → Manage Jenkins → Configure System → SonarQube servers
-        // Name it "sonarcloud" (or change below to your name)
-        withSonarQubeEnv('sonarcloud') {
-          // Token stored as Secret Text credential in Jenkins (ID: sonar-token-id)
+        withSonarQubeEnv('sonarcloud') {  // Configure in Manage Jenkins → Configure System
           withCredentials([string(credentialsId: 'sonar-token-id', variable: 'SONAR_TOKEN')]) {
             dir(params.MODULE_DIR) {
-              sh """
-                mvn -B sonar:sonar \
-                  -Dsonar.host.url=${SONAR_HOST} \
-                  -Dsonar.organization=${SONAR_ORG} \
-                  -Dsonar.projectKey=${SONAR_KEY} \
-                  -Dsonar.login=${SONAR_TOKEN} \
-                  -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-              """
+              bat """
+mvn -B sonar:sonar -Dsonar.host.url=%SONAR_HOST% -Dsonar.organization=%SONAR_ORG% -Dsonar.projectKey=%SONAR_KEY% -Dsonar.login=%SONAR_TOKEN% -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+              """.trim()
             }
           }
         }
@@ -75,7 +60,6 @@ pipeline {
 
     stage('Quality Gate') {
       steps {
-        // Requires SonarCloud webhook to Jenkins: https://<jenkins>/sonarqube-webhook
         timeout(time: 15, unit: 'MINUTES') {
           script {
             def qg = waitForQualityGate()
@@ -90,7 +74,7 @@ pipeline {
     stage('Package & Archive') {
       steps {
         dir(params.MODULE_DIR) {
-          sh 'mvn -B -DskipTests package'
+          bat 'mvn -B -DskipTests package'
         }
         archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
       }
@@ -98,7 +82,7 @@ pipeline {
   }
 
   post {
-    success { echo "✅ Build + Tests + SonarCloud passed. Artifact archived." }
-    failure { echo "❌ Build failed or SonarCloud Quality Gate not met." }
+    success { echo '✅ Build + Tests + SonarCloud passed. Artifact archived.' }
+    failure { echo '❌ Build failed or SonarCloud Quality Gate not met.' }
   }
 }
