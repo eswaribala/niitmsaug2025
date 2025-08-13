@@ -21,6 +21,8 @@ pipeline {
     SONAR_HOST = 'https://sonarcloud.io'
     SONAR_ORG  = 'eswaribala'                 // <-- set your org
     SONAR_KEY  = 'eswaribala_niitmsaug2025'   // <-- set your project key
+    SONAR_TOKEN = '8a6eb4e6769ba90d67eaedffb9bbc390a11a9295'
+
   }
 
   stages {
