@@ -46,7 +46,7 @@ pipeline {
 
     stage('Sonar Analysis') {
       steps {
-        withSonarQubeEnv('sonarcloud') {  // Configure in Manage Jenkins → Configure System
+        withSonarQubeEnv('sonarqube') {  // Configure in Manage Jenkins → Configure System
           withCredentials([string(credentialsId: 'sonar-token-id', variable: 'SONAR_TOKEN')]) {
             dir(params.MODULE_DIR) {
               bat """
