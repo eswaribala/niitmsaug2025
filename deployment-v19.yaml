@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: customerapi
+  name: customerapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customerapi
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: customerapi
+    spec:
+      containers:
+      - image: eswaribala/niit-repo2025:customerapiv1
+        name: v1
+        resources: {}
+        env:
+            - name: POSTGRES_URL
+              value: jdbc:postgresql://postgres:5432/niitprodcustomerdb
+               
+
+status: {}
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: customerapi
+  name: customerservice
+spec:
+  ports:
+  - name: 7074-7074
+    port: 7074
+    protocol: TCP
+    targetPort: 7074
+  selector:
+    app: customerapi
+  type: ClusterIP
+status:
+  loadBalancer: {}
