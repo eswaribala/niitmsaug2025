@@ -6,7 +6,7 @@ tools {
   }
 parameters {
     string(name: 'BRANCH', defaultValue: 'javaprojects', description: 'Git branch')
-    string(name: 'MODULE_DIR', defaultValue: 'bankingapi', description: 'Path to module (use "." if at root)')
+    string(name: 'MODULE_DIR', defaultValue: 'bankingapi/bankingapi', description: 'Path to module (use "." if at root)')
   }
 environment {
     SONAR_HOST = 'https://sonarcloud.io'
