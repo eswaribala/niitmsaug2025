@@ -31,3 +31,7 @@ kubectl exec -it <podname> -- psql -U postgres
 
 #expose the service to load balancer
 kubectl expose deployment --port 7074 customerapi --type=LoadBalancer --name=customerservicev1
+#to check authentication
+kubectl auth can-i create pods
+
+
