@@ -1,2 +1,15 @@
 #check kinds provided by kubernetes
 kubectl api-resources
+
+#create pv and pvc
+kubctl apply -f postgres-pv.yaml
+
+#postgres deployment
+kubectl apply -f postgres-deployment.yaml
+
+#to check the pod
+kubectl get pods
+#to check the service
+kubectl get svc
+#to check deployment
+kubectl get deploy
