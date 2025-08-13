@@ -1,0 +1,1 @@
+mvn sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=<token> -Dsonar.projectKey=<project_key>  -Dsonar.organization=<orgname>
