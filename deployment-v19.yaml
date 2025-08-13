@@ -43,6 +43,5 @@ spec:
     targetPort: 7074
   selector:
     app: customerapi
-  type: ClusterIP
-status:
-  loadBalancer: {}
+  type: LoadBalancer
+
