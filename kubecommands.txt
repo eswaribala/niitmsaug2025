@@ -13,3 +13,12 @@ kubectl get pods
 kubectl get svc
 #to check deployment
 kubectl get deploy
+
+#to delete pod
+kubectl delete pod <podname>
+
+#to delete svc
+kubectl delete svc <svcname>
+
+#to delete deploy
+kubectl delete deploy <deployname>
