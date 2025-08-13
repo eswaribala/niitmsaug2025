@@ -1,0 +1,26 @@
+pipeline{
+agent: any
+tools {
+    jdk 'java21'       // match names in Manage Jenkins → Tools
+    maven 'maven'
+  }
+parameters {
+    string(name: 'BRANCH', defaultValue: 'javaprojects', description: 'Git branch')
+    string(name: 'MODULE_DIR', defaultValue: 'bankingapi', description: 'Path to module (use "." if at root)')
+  }
+environment {
+    SONAR_HOST = 'https://sonarcloud.io'
+    SONAR_ORG  = 'eswaribala'                 // <-- set your org
+    SONAR_KEY  = 'eswaribala_siemenscorejavajul2025'   // <-- set your project key
+    SONAR_TOKEN = '4b35fc42de8b5e935cca1714c777cb07b7bdd2d0'
+
+  }
+
+stages{
+    stage('checkout'){
+        steps {
+        git branch: params.BRANCH, url: 'https://github.com/eswaribala/niitmsaug2025.git'
+      }
+    }
+ }
+}
