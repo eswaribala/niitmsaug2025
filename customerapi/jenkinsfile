@@ -49,7 +49,7 @@ pipeline {
     stage('Sonar Analysis') {
       steps {
         withSonarQubeEnv('sonarqube') {  // Configure in Manage Jenkins → Configure System
-          withCredentials([string(credentialsId: 'sonar-token-id', variable: 'SONAR_TOKEN')]) {
+          withCredentials([string(credentialsId: '024db136-7ddd-4bef-83d5-82af1bdc9f9a', variable: 'SONAR_TOKEN')]) {
             dir(params.MODULE_DIR) {
               bat """
 mvn -B sonar:sonar -Dsonar.host.url=%SONAR_HOST% -Dsonar.organization=%SONAR_ORG% -Dsonar.projectKey=%SONAR_KEY% -Dsonar.login=%SONAR_TOKEN% -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
