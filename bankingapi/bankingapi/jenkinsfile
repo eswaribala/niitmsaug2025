@@ -66,5 +66,10 @@ stages{
          }
          }
 
+
  }
+ post {
+         success { echo '✅ Build + Tests + SonarCloud passed. Artifact archived.' }
+         failure { echo '❌ Build failed or SonarCloud Quality Gate not met.' }
+       }
 }
