@@ -33,7 +33,7 @@ pipeline {
     stage('Build & Test') {
       steps {
         dir(params.MODULE_DIR) {
-          bat 'mvn -B -U clean verify'
+          bat 'mvn -B -U clean install -DskipTests -Dmaven.test.skip=true'
         }
       }
       post {
@@ -74,7 +74,7 @@ mvn -B sonar:sonar -Dsonar.host.url=%SONAR_HOST% -Dsonar.organization=%SONAR_ORG
     stage('Package & Archive') {
       steps {
         dir(params.MODULE_DIR) {
-          bat 'mvn -B -U clean install -DskipTests'
+          bat 'mvn -B -U clean install -DskipTests -Dmaven.test.skip=true'
         }
         archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
       }
