@@ -22,5 +22,20 @@ stages{
         git branch: params.BRANCH, url: 'https://github.com/eswaribala/niitmsaug2025.git'
       }
     }
+    stage('maven_build'){
+       steps{
+        dir(params.MODULE_DIR) {
+          bat 'mvn -B -U clean install -DskipTests -Dmaven.test.skip=true'
+        }
+       }
+       post {
+        always {
+          // find reports anywhere under workspace
+          junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
+        }
+      }
+
+    }
+
  }
 }
