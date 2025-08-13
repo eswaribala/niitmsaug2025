@@ -22,3 +22,11 @@ kubectl delete svc <svcname>
 
 #to delete deploy
 kubectl delete deploy <deployname>
+
+#to access postgres pod
+kubectl exec -it <podname> -- psql -U postgres
+#\l
+#create database niitprodcustomerdb;
+#quit
+
+
