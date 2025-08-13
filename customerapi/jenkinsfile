@@ -74,7 +74,7 @@ mvn -B sonar:sonar -Dsonar.host.url=%SONAR_HOST% -Dsonar.organization=%SONAR_ORG
     stage('Package & Archive') {
       steps {
         dir(params.MODULE_DIR) {
-          bat 'mvn -B -DskipTests package'
+          bat '  bat 'mvn -B -U clean install -DskipTests
         }
         archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
       }
