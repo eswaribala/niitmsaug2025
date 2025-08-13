@@ -28,14 +28,28 @@ stages{
           bat 'mvn -B -U clean install -DskipTests -Dmaven.test.skip=true'
         }
        }
-       post {
-        always {
-          // find reports anywhere under workspace
-          junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
-        }
+     }
+
+   stage('mock_test'){
+     steps{
+           dir(params.MODULE_DIR) {
+             bat 'mvn -B -U test -Dtest=IndividualServiceTest'
+           }
+          }
       }
 
-    }
-
+   stage('jacoco_report'){
+        steps{
+              dir(params.MODULE_DIR) {
+                bat 'mvn -B -U surefire:test -Dtest=IndividualServiceTest'
+              }
+             }
+             post {
+              always {
+                // find reports anywhere under workspace
+                junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
+              }
+            }
+      }
  }
 }
