@@ -29,4 +29,5 @@ kubectl exec -it <podname> -- psql -U postgres
 #create database niitprodcustomerdb;
 #quit
 
-
+#expose the service to load balancer
+kubectl expose deployment --port 7074 customerapi --type=LoadBalancer --name=customerservicev1
