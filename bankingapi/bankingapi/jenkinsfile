@@ -73,8 +73,8 @@ stages{
          failure { echo '❌ Build failed or SonarCloud Quality Gate not met.' } */
          always{
           SlackSend{
-           channel: '#notifyjenkins',
-           message: "Build ${env.JOB_NAME} #${env.BUILD_NUMBER}-Success"
+           channel '#notifyjenkins',
+           message "Build ${env.JOB_NAME} #${env.BUILD_NUMBER}-Success"
           }
          }
        }
