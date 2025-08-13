@@ -101,4 +101,6 @@ mvn -B sonar:sonar -Dsonar.host.url=%SONAR_HOST% -Dsonar.organization=%SONAR_ORG
         slackSend(channel: '#notifyjenkins2025',
                   message: "ℹ️ ${env.JOB_NAME} #${env.BUILD_NUMBER} finished with ${currentBuild.currentResult}")
       }
-}
+    }
+
+  }
