@@ -81,6 +81,15 @@ mvn -B sonar:sonar -Dsonar.host.url=%SONAR_HOST% -Dsonar.organization=%SONAR_ORG
         archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
       }
     }
+    stage('Docker_Deploy') {
+          steps {
+            dir(params.MODULE_DIR) {
+              bat 'docker build -f dockerfile -t customerapiv11 .'
+            }
+            archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
+          }
+        }
+
   }
 
   post {
