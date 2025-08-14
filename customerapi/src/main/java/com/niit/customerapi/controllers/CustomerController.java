@@ -1,5 +1,6 @@
 package com.niit.customerapi.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.niit.customerapi.dtos.CustomerDTO;
 import com.niit.customerapi.dtos.ResponseWrapper;
 import com.niit.customerapi.models.Customer;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("customers")
@@ -43,6 +45,31 @@ public class CustomerController {
 
     }
 
+
+
+    @PostMapping("/v1.0")
+    public CompletableFuture<ResponseEntity<String>> publishCustomerData(@Valid @RequestBody CustomerDTO customerDTO)  throws JsonProcessingException {
+
+        Customer customer = Customer.builder()
+                .accountNo(customerDTO.getAccountNo())
+                .fullName(FullName.builder().firstName(customerDTO.getFullName().getFirstName())
+                        .lastName(customerDTO.getFullName().getLastName())
+                        .middleName(customerDTO.getFullName().getMiddleName())
+                        .build())
+                .email(customerDTO.getEmail())
+                .password(customerDTO.getPassword())
+                .phoneNumber(customerDTO.getPhoneNumber())
+
+                .build();
+
+        return customerService.publishCustomerData(customer)
+                .thenApply(result->ResponseEntity.status(HttpStatus.OK)
+                        .body(result.getRecordMetadata().topic()+","+result.getRecordMetadata().partition()+","+result.getRecordMetadata().offset()))
+                .exceptionally(ex-> {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+                });
+
+    }
 
     @GetMapping("/v1.0")
     public List<Customer> fetchCustomers(){
@@ -84,4 +111,7 @@ public class CustomerController {
 
 
     }
+
+
+
 }
