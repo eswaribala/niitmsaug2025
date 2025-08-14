@@ -85,20 +85,20 @@ mvn -B sonar:sonar -Dsonar.host.url=%SONAR_HOST% -Dsonar.organization=%SONAR_ORG
 
   post {
       success {
-        slackSend(channel: '#notifyjenkins2025',
+        slackSend(channel: '#jenkinsnotifyaug2025',
                   message: "✅ ${env.JOB_NAME} #${env.BUILD_NUMBER} succeeded on ${env.NODE_NAME}")
       }
       failure {
-        slackSend(channel: '#notifyjenkins2025',
+        slackSend(channel: '#jenkinsnotifyaug2025',
                   message: "❌ ${env.JOB_NAME} #${env.BUILD_NUMBER} failed. Check: ${env.BUILD_URL}")
       }
       unstable {
-        slackSend(channel: '#notifyjenkins2025',
+        slackSend(channel: '#jenkinsnotifyaug2025',
                   message: "⚠️ ${env.JOB_NAME} #${env.BUILD_NUMBER} is UNSTABLE. ${env.BUILD_URL}")
       }
       always {
         // Optional: brief summary for every build
-        slackSend(channel: '#notifyjenkins2025',
+        slackSend(channel: '#jenkinsnotifyaug2025',
                   message: "ℹ️ ${env.JOB_NAME} #${env.BUILD_NUMBER} finished with ${currentBuild.currentResult}")
       }
     }
