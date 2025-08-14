@@ -47,7 +47,7 @@ public class CustomerController {
 
 
 
-    @PostMapping("/v1.0")
+    @PostMapping("/v1.0/publish")
     public CompletableFuture<ResponseEntity<String>> publishCustomerData(@Valid @RequestBody CustomerDTO customerDTO)  throws JsonProcessingException {
 
         Customer customer = Customer.builder()
