@@ -90,6 +90,30 @@ mvn -B sonar:sonar -Dsonar.host.url=%SONAR_HOST% -Dsonar.organization=%SONAR_ORG
           }
         }
 
+     stage('Kube_postgres_volume') {
+               steps {
+                 dir(params.MODULE_DIR) {
+                   bat 'kubectl apply -f postgres-pv.yaml'
+                 }
+                 archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
+               }
+             }
+     stage('Kube_postgres_deploy') {
+                    steps {
+                      dir(params.MODULE_DIR) {
+                        bat 'kubectl apply -f postgres-deployment.yaml'
+                      }
+                      archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
+                    }
+                  }
+     stage('Kube_cutsomer_deploy') {
+                    steps {
+                      dir(params.MODULE_DIR) {
+                        bat 'kubectl apply -f deployment-v20.yaml'
+                      }
+                      archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
+                    }
+                  }
   }
 
   post {
