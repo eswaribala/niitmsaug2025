@@ -20,7 +20,7 @@ public class GrpcServiceImpl extends SimpleMessageGrpc.SimpleMessageImplBase {
     @Override
     public void streamMessage(MessageRequest request, StreamObserver<MessageReply> responseObserver) {
         Faker faker = new Faker();
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 15; i++) {
             responseObserver.onNext(
                     MessageReply.newBuilder().setMessage(faker.lorem().paragraph()+"->"+faker.number().numberBetween(1,100)).build()
             );
