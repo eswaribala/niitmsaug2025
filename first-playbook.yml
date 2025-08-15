@@ -1,0 +1,10 @@
+---
+- name: "Demo: use a variable"
+  hosts: all
+  gather_facts: false
+  vars:
+    greeting: "Rocking with Ansible!"
+  tasks:
+    - name: "Using variables in playbook"
+      ansible.builtin.debug:
+        msg: "{{ greeting }}"
