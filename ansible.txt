@@ -31,7 +31,12 @@ ansible_python_interpreter=/usr/bin/python3
 
 ansible-inventory --list -y
 
-ansible all -m ping -u root
+#to check connection
+(wsl)
+ansible all -m ping -u root 
+(ec2)
+ansible -i inventory.ini  -m ping -u root 
+
 
 Incase host key error
 export ANSIBLE_HOST_KEY_CHECKING=False
