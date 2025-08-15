@@ -35,7 +35,7 @@ ansible-inventory --list -y
 (wsl)
 ansible all -m ping -u root 
 (ec2)
-ansible -i inventory.ini  -m ping -u root 
+ansible -i inventory.ini all  -m ping -u root 
 
 
 Incase host key error
