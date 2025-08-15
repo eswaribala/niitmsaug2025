@@ -1,0 +1,122 @@
+sudo apt-add-repository ppa:ansible/ansible
+
+sudo apt update
+sudo apt install ansible
+
+create ansible instance using ec2
+convert ppk to pem file using mobaxterm tools
+drag and drop pem to mobaxterm home
+cp niitkeypair.pem ~/.ssh
+
+sudo apt install python3         # install python
+sudo apt install python3-pip     # install pip
+pip install boto boto3 ansible  # install boto, boto3, and ansible
+
+sudo nano /etc/ansible/hosts
+With proper space
+
+
+
+[servers]
+  server1 ansible_host=3.85.133.155 ansible_user=ubuntu ansible_ssh_private_key_file=/home/eswaribala/.ssh/niitkeypair.pem
+  server2 ansible_host=18.232.83.234 ansible_user=ubuntu ansible_ssh_private_key_file=/home/eswaribala/.ssh/niitkeypair.pem
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+
+
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+
+ansible-inventory --list -y
+
+ansible all -m ping -u root
+
+Incase host key error
+export ANSIBLE_HOST_KEY_CHECKING=False
+
+ansible commands
+ansible --version
+# adjust owner (replace with your username if different)
+sudo chown eswaribala:eswaribala /home/eswaribala/.ssh /home/eswaribala/.ssh/niitkeypair.pem
+chmod 700 /home/eswaribala/.ssh
+chmod 600 /home/eswaribala/.ssh/niitkeypair.pem
+Managing Packages
+Following are some of the ad-hoc commands using yum that check if the yum package is installed or not (but not for updating it)
+
+
+We can also use ad-hoc commands to gather facts by implementing conditional statements in our playbook. We can find information through this command:
+
+$ Ansible all -m setup
+
+
+
+create playbook
+https://phoenixnap.com/kb/ansible-playbook
+https://www.digitalocean.com/community/tutorial_series/how-to-write-ansible-playbooks
+---
+
+- name: Network Getting Started First Playbook
+
+  hosts: all
+  vars:
+   greeting: "Rocking with ansible!"
+
+  tasks:
+   - name: "using variables in playbook"
+     debug:
+       msg: "{{greeting}}"
+
+
+
+Run playbook
+ansible-playbook ./first-playbook.yml
+
+Adhoc commands
+ ansible all -m ansible.builtin.setup
+ ansible-galaxy list  
+
+#tomcat
+sudo groupadd tomcat
+sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+sudo apt install curl
+curl -O https://apache.mirror.serveriai.lt/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz
+sudo mkdir /opt/tomcat
+cd /opt/tomcat
+sudo tar xzvf /home/linuxvmimages/Downloads/apache-tomcat-10.0.16.tar.gz -C /opt/tomcat --strip-components=1
+sudo chgrp -R tomcat /opt/tomcat
+sudo chmod -R g+r conf
+sudo chmod g+x conf
+sudo chown -R tomcat webapps/ work/ temp/ logs/
+sudo nano /etc/systemd/system/tomcat.service
+paste the following
+[Unit]
+Description=Apache Tomcat Web Application Container
+After=network.target
+
+[Service]
+Type=forking
+
+Environment=JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64/jre
+Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
+Environment=CATALINA_Home=/opt/tomcat
+Environment=CATALINA_BASE=/opt/tomcat
+Environment=’CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC’
+Environment=’JAVA_OPTS.awt.headless=true -Djava.security.egd=file:/dev/v/urandom’
+
+ExecStart=/opt/tomcat/bin/startup.sh
+ExecStop=/opt/tomcat/bin/shutdown.sh
+
+User=tomcat
+Group=tomcat
+UMask=0007
+RestartSec=10
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+sudo systemctl start tomcat
+sudo systemctl status tomcat
