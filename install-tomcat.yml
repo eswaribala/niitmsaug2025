@@ -1,0 +1,35 @@
+---
+- name: Install tomcat on target machines
+  hosts: all
+  become: yes
+  vars:
+   tomcat_version: "10.1.20"
+   tomcat_user: "tomcat"
+   tomcat_group: "tomcat"
+   tomcat_install_dir: "/opt/tomcat"
+
+
+  tasks:
+   - name: update apt cache (Debian/Ubuntu)
+     apt:
+      update_cache: yes
+     when: ansible_os_family == "Debian"
+   - name: Ensure Java Installed on Debian or Ubuntu
+     package:
+      name: "openjdk-21-jdk"
+      state: present
+     when: ansible_os_family == "Debian"
+   - name: Create Tomcat Group
+     group:
+      name: "{{ tomcat_group }}"
+   - name: Create Tomcat user
+     user:
+      name: "{{ tomcat_user }}"
+      group: "{{ tomcat_group }}"
+      shell: /bin/false
+      home: "{{ tomcat_install_dir }}"
+   - name: Download Tomcat
+     get_url:
+      url: "https://downloads.apache.org/tomcat/tomcat-10/v10.1.44/bin/apache-tomcat-10.1.44.tar.gz"
+      dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+      mode: '0644'
